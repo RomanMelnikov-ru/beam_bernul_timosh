@@ -3,6 +3,7 @@ import plotly.graph_objects as go
 import streamlit as st
 
 # Функция для расчета напряжений и прогибов
+@st.cache_data
 def calculate_stresses_and_deflections(L, q, b, h, E, G):
     I = (b * h**3) / 12  # Момент инерции
     M_max = q * L**2 / 8  # Максимальный изгибающий момент
@@ -33,11 +34,11 @@ k = 5 / 6  # Коэффициент сдвига для прямоугольно
 # Создание интерфейса Streamlit
 st.title("Анализ балки: Теория Бернулли vs Теория Тимошенко")
 
-# Слайдеры для управления параметрами
-L = st.slider("Пролет балки (м)", 1.0, 10.0, L_init, step=0.1)
-q = st.slider("Нагрузка на балку (кН/м)", 1.0, 20.0, q_init, step=0.1)
-b = st.slider("Ширина балки (м)", 0.1, 0.5, b_init, step=0.01)
-h = st.slider("Высота балки (м)", 0.1, 0.5, h_init, step=0.01)
+# Слайдеры заменяем на st.number_input
+L = st.number_input("Пролет балки (м)", min_value=1.0, max_value=10.0, value=L_init, step=0.1)
+q = st.number_input("Нагрузка на балку (кН/м)", min_value=1.0, max_value=20.0, value=q_init, step=0.1)
+b = st.number_input("Ширина балки (м)", min_value=0.1, max_value=0.5, value=b_init, step=0.01)
+h = st.number_input("Высота балки (м)", min_value=0.1, max_value=0.5, value=h_init, step=0.01)
 
 # Отображение отношения h/L
 st.write(f"Отношение h/L = {h / L:.4f}")
